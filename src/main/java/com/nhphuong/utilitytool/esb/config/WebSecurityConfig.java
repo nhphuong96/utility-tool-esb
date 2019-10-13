@@ -4,15 +4,14 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -27,6 +26,9 @@ import com.nhphuong.utilitytool.esb.filter.JWTLoginFilter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final Logger log = Logger.getLogger(WebSecurityConfig.class);
+	
+	@Autowired
+	private UserDetailsService userDetailService;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -69,18 +71,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean JWTAuthenticationFilter jwtAuthenticationFilter() {
 		return new JWTAuthenticationFilter();
 	}
-
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		log.info("Configure WebSecurityConfig");
-		String password = "123";
-		String encryptedPassword = this.passwordEncoder().encode(password);
-		
-		InMemoryUserDetailsManagerConfigurer<AuthenticationManagerBuilder> mgnBuilder = auth.inMemoryAuthentication();
-		UserDetails u1 = User.withUsername("phuong").password(encryptedPassword).roles("USER").build();
-		UserDetails u2 = User.withUsername("tien").password(encryptedPassword).roles("USER").build();
-		mgnBuilder.withUser(u1);
-		mgnBuilder.withUser(u2);
+		auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
 	}
 	
 }

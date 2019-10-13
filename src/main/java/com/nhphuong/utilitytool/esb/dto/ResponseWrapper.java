@@ -3,14 +3,18 @@ package com.nhphuong.utilitytool.esb.dto;
 public class ResponseWrapper<T extends Object> {
 
 	private T body;
-	private boolean success;
 	private String message;
-	
-	public ResponseWrapper(T body, boolean success, String message) {
+	private boolean success;
+
+	public ResponseWrapper() {
+		super();
+	}
+
+	public ResponseWrapper(T body, String message, boolean success) {
 		super();
 		this.body = body;
-		this.success = success;
 		this.message = message;
+		this.success = success;
 	}
 
 	public T getBody() {

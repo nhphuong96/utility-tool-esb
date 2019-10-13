@@ -66,7 +66,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		String jwtToken = tokenAuthenticationService.generateToken(authResult.getName());
 		if (StringUtils.isNotEmpty(jwtToken)) {
 			log.info("Authorization string: " + jwtToken);
-			ResponseWrapper<String> tokenResponse = new ResponseWrapper<String>(jwtToken, true, "success");
+			ResponseWrapper<String> tokenResponse = new ResponseWrapper<String>(jwtToken, "success", true);
 			response.setStatus(HttpServletResponse.SC_OK);
 			response.getOutputStream().write(ObjectMapperUtils.getObjectMapper().writeValueAsString(tokenResponse).getBytes());
 			return;
@@ -80,7 +80,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			AuthenticationException failed) throws IOException, ServletException {
 		
 		log.info("JWTLoginFilter.unsuccessfulAuthentication: ");
-		ResponseWrapper<String> unauthorizedResponse = new ResponseWrapper<String>(null, false, "unauthorized");
+		ResponseWrapper<String> unauthorizedResponse = new ResponseWrapper<String>(null, "unauthorized", false);
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.getOutputStream().write(ObjectMapperUtils.getObjectMapper().writeValueAsString(unauthorizedResponse).getBytes());
 		return;

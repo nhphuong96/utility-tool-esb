@@ -10,11 +10,14 @@ public final class Constant {
 	public static final String PORT = "8080";
 	public static final String API_ENDPOINT = "/api";
 	
-	public static String getBaseUrl() {
+	public static final String USER_SERVICE_CONTEXT_PATH = "/user-service";
+	
+	public static String getBaseUrl(String contextPath) {
 		StringBuilder url = new StringBuilder();
 		url.append(PROTOCOL).append("://")
 		   .append(HOSTNAME).append(":")
 		   .append(PORT)
+		   .append(contextPath)
 		   .append(API_ENDPOINT);
 		return url.toString();
 	}

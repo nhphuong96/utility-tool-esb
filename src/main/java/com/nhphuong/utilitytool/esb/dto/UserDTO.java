@@ -1,12 +1,21 @@
 package com.nhphuong.utilitytool.esb.dto;
 
-public class UserDTO {
+import java.util.Set;
+
+public class UserDTO extends BaseDTO {
+	private Long userKey;
+	private String userId;
 	private String username;
 	private String password;
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String[] roles;
+	private int isLocked;
+	private Set<RoleDTO> roles;
+
+	public UserDTO() {
+		super();
+	}
 
 	public String getPassword() {
 		return password;
@@ -48,11 +57,35 @@ public class UserDTO {
 		this.username = username;
 	}
 
-	public String[] getRoles() {
+	public Long getUserKey() {
+		return userKey;
+	}
+
+	public void setUserKey(Long userKey) {
+		this.userKey = userKey;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public int getIsLocked() {
+		return isLocked;
+	}
+
+	public void setIsLocked(int isLocked) {
+		this.isLocked = isLocked;
+	}
+
+	public Set<RoleDTO> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(String[] roles) {
+	public void setRoles(Set<RoleDTO> roles) {
 		this.roles = roles;
 	}
 
